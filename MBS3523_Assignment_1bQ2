@@ -1,0 +1,22 @@
+import cv2
+
+
+cam = cv2.VideoCapture(0)
+
+while True:
+    success,frame = cam.read()
+    width = cam.get(3)
+    height = cam.get(4)
+    frameHSV=cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    frameGray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+    frameBLUR = cv2.GaussianBlur(frameGray, (7,7),0)
+    frameCANNY = cv2.Canny(frame, 100,200)
+    cv2.imshow("Webcam", frame)
+    cv2.imshow("Webcam HSV", frameHSV)
+    cv2.imshow("Webcam BLUR", frameBLUR)
+    cv2.imshow("Webcam CANNY", frameCANNY)
+    if cv2.waitKey(1) & 0xff == ord('q'):
+        break
+
+cam.release()
+cv2.destroyAllWindows()
