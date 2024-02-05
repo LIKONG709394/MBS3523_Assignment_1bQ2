@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+
+cam = cv2.VideoCapture(0)
+width = cam.get(3)  # column
+height = cam.get(4)  # Row
+img = np.zeros((int(height),int(width),3),dtype=np.uint8)
+
+while True:
+
+    ret0, frame = cam.read()
+    frame= cv2.resize(frame, (int(width/2),int(height/2)))
+
+
+    frame0 = np.flip(frame, 1)
+    frame1 = np.flip(frame, 0)
+    frame3 = np.flip(frame0, 0)
+
+    img[:int(height/2),:int(width/2)]=frame
+    img[:int(height/2),int(width/2):]=frame0
+    img[int(height/2):,:int(width/2)]=frame1
+    img[int(height/2):,int(width/2):]=frame3
+
+
+    cv2.imshow("a", img)
+
+    key = cv2.waitKey(1)
+    if key == ord("q"):
+        break
+
+cam.release()
+cv2.destroyAllWindows()
